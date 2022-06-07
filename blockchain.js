@@ -5,17 +5,28 @@ class Block{
         this.timestamp = timestamp;
         this.data = data;
         this.previousHash = previousHash;
-        this.hash = '';
+        this.hash = this.calculateHash();
+        this.nonce = 0;
     }
 
     calculateHash(){
         return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
+    }
+
+    mineBlock(difficulty){
+        while(this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")){
+            this.nonce++;
+            this.hash = this.calculateHash();
+        }
+
+        console.log("Block mine: " + this.hash);
     }
 }
 
 class Blockchain{
     constructor(){
         this.chain=[this.createGenesisBlock()];
+        this.difficulty = 2;
     }
 
     createGenesisBlock(){
@@ -28,7 +39,7 @@ class Blockchain{
 
     addBlock(newBlock){
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock();
         this.chain.push(newBlock);
     }
 
@@ -51,18 +62,26 @@ class Blockchain{
 }
 
 let tigerCoin = new Blockchain();
+
+console.log('Mining block 1...');
 tigerCoin.addBlock(new Block(1, "12/6/2022", { amount:4 }));
+
+console.log('Mining block 2...');
 tigerCoin.addBlock(new Block(2, "15/6/2022", { amount:10 }));
-tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
-tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
 
-console.log(JSON.stringify(tigerCoin, null, 4));
+// console.log('Mining block 3...');
+// tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
 
-console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
+// console.log('Mining block 4...');
+// tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
 
-tigerCoin.chain[1].data = { amount: 200 };
-tigerCoin.chain[1].hash = tigerCoin.chain[1].calculateHash();
+//console.log(JSON.stringify(tigerCoin, null, 4));
 
-console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
+// console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
+
+// tigerCoin.chain[1].data = { amount: 200 };
+// tigerCoin.chain[1].hash = tigerCoin.chain[1].calculateHash();
+
+// console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
 
 
