@@ -53,12 +53,14 @@ class Blockchain{
 let tigerCoin = new Blockchain();
 tigerCoin.addBlock(new Block(1, "12/6/2022", { amount:4 }));
 tigerCoin.addBlock(new Block(2, "15/6/2022", { amount:10 }));
+tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
+tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
 
 console.log(JSON.stringify(tigerCoin, null, 4));
 
 console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
 
-tigerCoin.chain[1].data = { amount: 100 };
+tigerCoin.chain[1].data = { amount: 200 };
 tigerCoin.chain[1].hash = tigerCoin.chain[1].calculateHash();
 
 console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
