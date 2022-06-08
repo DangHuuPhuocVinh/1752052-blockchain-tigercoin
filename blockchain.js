@@ -10,7 +10,7 @@ class Block{
     }
 
     calculateHash(){
-        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)).toString();
+        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
     }
 
     mineBlock(difficulty){
@@ -26,7 +26,7 @@ class Block{
 class Blockchain{
     constructor(){
         this.chain=[this.createGenesisBlock()];
-        this.difficulty = 2;
+        this.difficulty = 4;
     }
 
     createGenesisBlock(){
@@ -39,7 +39,7 @@ class Blockchain{
 
     addBlock(newBlock){
         newBlock.previousHash = this.getLatestBlock().hash;
-        newBlock.mineBlock();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
     }
 
@@ -69,11 +69,11 @@ tigerCoin.addBlock(new Block(1, "12/6/2022", { amount:4 }));
 console.log('Mining block 2...');
 tigerCoin.addBlock(new Block(2, "15/6/2022", { amount:10 }));
 
-// console.log('Mining block 3...');
-// tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
+console.log('Mining block 3...');
+tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
 
-// console.log('Mining block 4...');
-// tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
+console.log('Mining block 4...');
+tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
 
 //console.log(JSON.stringify(tigerCoin, null, 4));
 
