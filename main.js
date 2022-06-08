@@ -53,7 +53,7 @@ class Blockchain{
     // }
 
     minePendingTransactions(miningRewardAddress){
-        let block = new Block(Date.now(), this.pendingTransactions);
+        let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
         block.mineBlock(this.difficulty);
 
         console.log("Block successfully mined !");
@@ -106,7 +106,7 @@ class Blockchain{
 }
 
 let tigerCoin = new Blockchain();
-tigerCoin.createTransaction(new Transaction('address1', 'tiger', '100'));
+tigerCoin.createTransaction(new Transaction('address1', 'address2', '100'));
 tigerCoin.createTransaction(new Transaction('address2', 'address1', '50'));
 
 console.log('\n Starting the miner.');
