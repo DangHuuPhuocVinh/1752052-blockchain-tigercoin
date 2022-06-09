@@ -17,7 +17,7 @@ class Block{
     }
 
     calculateHash(){
-        return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString();
+        return SHA256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + this.nonce).toString();
     }
 
     mineBlock(difficulty){
@@ -69,7 +69,7 @@ class Blockchain{
 
     getBalanceOfAddress(address){
         let balance = 0;
-
+        
         for(const block of this.chain){
             for(const trans of block.transactions){
                 if(trans.fromAddress === address){
@@ -80,11 +80,11 @@ class Blockchain{
                     balance += trans.amount;
                 }
             }
-        }
-
-        //console.log('getBalanceOfAddress: %s', balance);
-
-        return balance;
+        }    
+        
+        balance = Number(balance);
+        //console.log(typeof(balance))
+        return balance += this.miningReward; 
     }
 
     isChainValid(){
@@ -106,18 +106,21 @@ class Blockchain{
 }
 
 let tigerCoin = new Blockchain();
-tigerCoin.createTransaction(new Transaction('address1', 'address2', '100'));
-tigerCoin.createTransaction(new Transaction('address2', 'address1', '50'));
+tigerCoin.createTransaction(new Transaction('address1', 'tiger', '100'));
 
 console.log('\n Starting the miner.');
 tigerCoin.minePendingTransactions('tiger');
 
 console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
 
-console.log('\n Starting the second time.');
-tigerCoin.minePendingTransactions('tiger');
+tigerCoin.createTransaction(new Transaction('tiger', 'address1', '50'));
+
+console.log('\n Starting the miner second.');
 
 console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
+
+
+
 
 
 // console.log('Mining block 1...');
