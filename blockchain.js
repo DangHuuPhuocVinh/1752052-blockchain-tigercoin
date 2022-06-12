@@ -57,6 +57,16 @@ class Block{
 
         console.log("Block mine: " + this.hash);
     }
+
+    hasValidTransactions(){
+            for(const tx of this.transactions){
+                if(!tx.isValid()){
+                    return false;
+                }
+            }
+
+            return true;
+    }
 }
 
 class Blockchain{
