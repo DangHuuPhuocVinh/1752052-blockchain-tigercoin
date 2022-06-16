@@ -1,19 +1,30 @@
 const {Blockchain, Transaction} = require('./blockchain');
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
 
+const mykey = ec.keyFromPrivate('80302ea7044c71b167a16b98673a367a53b943a31fdf99a54e7018c1ad0ce2c5');
+const mywallet = mykey.getPublic('hex');    
 
 let tigerCoin = new Blockchain();
-tigerCoin.createTransaction(new Transaction('address1', 'tiger', '100'));
+
+const tx1 = new Transaction(mywallet, '044e485d899433b15d7ae6f90ea4b38ea687fa0298bd4f6fa081f9800f1ead4809ed1845cf69f2ccbadd63a1d6afcb0a80ba7390ff1495982b7433ef2422463389', 100);
+tx1.signTransaction(mykey);
+tigerCoin.addTransaction(tx1);
+
+
+
+// tigerCoin.createTransaction(new Transaction('address1', 'tiger', '100'));
 
 console.log('\n Starting the miner.');
-tigerCoin.minePendingTransactions('tiger');
+tigerCoin.minePendingTransactions(mywallet);
 
-console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
+console.log('\n My balance is', tigerCoin.getBalanceOfAddress(mywallet));
 
-tigerCoin.createTransaction(new Transaction('tiger', 'address1', '50'));
+// tigerCoin.createTransaction(new Transaction('tiger', 'address1', '50'));
 
-console.log('\n Starting the miner second.');
+// console.log('\n Starting the miner second.');
 
-console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
+// console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
 
 
 
