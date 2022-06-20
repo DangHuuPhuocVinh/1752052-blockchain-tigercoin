@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Blockchain } from  './src/blockchain.js';
-import EC from "elliptic";
+import { Blockchain } from  './src/blockchain';
+`import EC from "elliptic"`;
 
 @Injectable({
   providedIn: 'root'
