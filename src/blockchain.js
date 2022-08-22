@@ -85,11 +85,11 @@ class Blockchain{
         return this.chain[this.chain.length - 1];
     }
 
-    // addBlock(newBlock){
-    //     newBlock.previousHash = this.getLatestBlock().hash;
-    //     newBlock.mineBlock(this.difficulty);
-    //     this.chain.push(newBlock);
-    // }
+    addBlock(newBlock){
+        newBlock.previousHash = this.getLatestBlock().hash;
+        newBlock.mineBlock(this.difficulty);
+        this.chain.push(newBlock);
+    }
 
     minePendingTransactions(miningRewardAddress){
         let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
@@ -130,7 +130,7 @@ class Blockchain{
         }    
         
         balance = Number(balance);
-        //console.log(typeof(balance))
+        
         return balance += this.miningReward; 
     }
 
@@ -158,3 +158,39 @@ class Blockchain{
 
 module.exports.Blockchain = Blockchain;
 module.exports.Transaction = Transaction;
+
+// let tigerCoin = new Blockchain();
+
+// tigerCoin.addBlock(new Block(1, "12/6/2022", { amount:4 }));
+
+// console.log('Mining block 2...');
+// tigerCoin.addBlock(new Block(2, "15/6/2022", { amount:10 }));
+
+// console.log('Mining block 3...');
+// tigerCoin.addBlock(new Block(3, "16/6/2022", { amount:12 }));
+
+// console.log('Mining block 4...');
+// tigerCoin.addBlock(new Block(4, "18/6/2022", { amount:5 }));
+
+
+
+// console.log('\n Starting the miner.');
+// tigerCoin.minePendingTransactions(mywallet);
+
+
+
+//tigerCoin.createTransaction(new Transaction('tiger', 'address1', '50'));
+
+// console.log('\n Starting the miner second.');
+
+// console.log('\n My balance is', tigerCoin.getBalanceOfAddress('tiger'));
+
+
+// console.log(JSON.stringify(tigerCoin, null, 4));
+
+// console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
+
+// tigerCoin.chain[1].data = { amount: 200 };
+// tigerCoin.chain[1].hash = tigerCoin.chain[1].calculateHash();
+
+// console.log('Is blockchain valid ?' + tigerCoin.isChainValid());
