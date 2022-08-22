@@ -161,6 +161,8 @@ module.exports.Transaction = Transaction;
 
 // let tigerCoin = new Blockchain();
 
+
+// console.log('Mining block ...');
 // tigerCoin.addBlock(new Block(1, "12/6/2022", { amount:4 }));
 
 // console.log('Mining block 2...');
